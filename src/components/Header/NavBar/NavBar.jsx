@@ -1,9 +1,15 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faTimes,
+  faAngleDown,
+} from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
 const NavBar = () => {
   const [menuClassName, setMenuClassName] = useState("menu");
+  const [subMenuOneClassName, setSubMenuOneClassName] = useState("submenu");
+  const [subMenuTwoClassName, setSubMenuTwoClassName] = useState("submenu");
   const [menuIcon, setMenuIcon] = useState(faBars);
   // Toggle mobile menu
   const toggleMenu = () => {
@@ -15,6 +21,36 @@ const NavBar = () => {
       setMenuClassName("menu active");
       // adds the menu (x) icon
       setMenuIcon(faTimes);
+    }
+  };
+
+  // Activate submenu one
+  const toggleItemOne = () => {
+    if (subMenuOneClassName === "submenu-active") {
+      setSubMenuOneClassName("submenu");
+      if (subMenuTwoClassName === "submenu-active") {
+        setSubMenuTwoClassName("submenu");
+      }
+    } else {
+      setSubMenuOneClassName("submenu-active");
+      if (subMenuTwoClassName === "submenu-active") {
+        setSubMenuTwoClassName("submenu");
+      }
+    }
+  };
+
+  // Activate submenu two
+  const toggleItemTwo = () => {
+    if (subMenuTwoClassName === "submenu-active") {
+      setSubMenuTwoClassName("submenu");
+      if (subMenuOneClassName === "submenu-active") {
+        setSubMenuOneClassName("submenu");
+      }
+    } else {
+      setSubMenuTwoClassName("submenu-active");
+      if (subMenuOneClassName === "submenu-active") {
+        setSubMenuOneClassName("submenu");
+      }
     }
   };
 
@@ -32,8 +68,11 @@ const NavBar = () => {
         </li>
 
         <li className="item has-submenu">
-          <a tabIndex="0">Services</a>
-          <ul className="submenu">
+          <a onClick={toggleItemOne} tabIndex="0">
+            Services
+            <FontAwesomeIcon icon={faAngleDown} className="angle-down" />
+          </a>
+          <ul className={subMenuOneClassName}>
             <li className="subitem">
               <a href="#">Design</a>
             </li>
@@ -50,8 +89,11 @@ const NavBar = () => {
         </li>
 
         <li className="item has-submenu">
-          <a tabIndex="0">Plans</a>
-          <ul className="submenu">
+          <a onClick={toggleItemTwo} tabIndex="0">
+            Plans
+            <FontAwesomeIcon icon={faAngleDown} className="angle-down" />
+          </a>
+          <ul className={subMenuTwoClassName}>
             <li className="subitem">
               <a href="#">Freelancer</a>
             </li>
